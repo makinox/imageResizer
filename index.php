@@ -2,9 +2,9 @@
 
 header('Content-type: image/jpeg');
 
-$target = "500.jpg";
+$target = "5905.jpg";
 $wtrmrk_file = "watermark.png";
-$newcopy = "complete.jpg";
+$newcopy = "completo.jpg";
 
 list($ancho, $alto) = getimagesize($target);
 
