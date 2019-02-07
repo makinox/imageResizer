@@ -2,7 +2,7 @@
 
 header('Content-type: image/jpeg');
 
-$target = "1000.jpg";
+$target = "2000.jpg";
 $wtrmrk_file = "watermark.png";
 $middle_wtrmrk_file = "middle-watermark.png";
 $little_wtrmrk_file = "little-watermark.png";
