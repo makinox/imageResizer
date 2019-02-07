@@ -4,10 +4,13 @@ header('Content-type: image/jpeg');
 
 $target = "1000.jpg";
 $wtrmrk_file = "watermark.png";
+$middle_wtrmrk_file = "middle-watermark.png";
 $little_wtrmrk_file = "little-watermark.png";
 $newcopy = "completo.jpg";
 
 $wa = 0;
+$nuevo_ancho = 0;
+$nuevo_alto = 0;
 
 list($ancho, $alto) = getimagesize($target);
 
@@ -68,11 +71,17 @@ imagedestroy($origen);
 
 
 // Preparando la marca de agua
-if ($wa) {
+if ($nuevo_ancho < 260) {
     $watermark = imagecreatefrompng($little_wtrmrk_file);
     imagealphablending($watermark, false);
     imagesavealpha($watermark, true);
-    imagefilter($watermark, IMG_FILTER_COLORIZE, 0,0,0,127* (1 - 0.3));
+    imagefilter($watermark, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * (1 - 0.3));
+
+} else if ($nuevo_ancho < 380) {
+    $watermark = imagecreatefrompng($middle_wtrmrk_file);
+    imagealphablending($watermark, false);
+    imagesavealpha($watermark, true);
+    imagefilter($watermark, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * (1 - 0.3));
 } else {
     $watermark = imagecreatefrompng($wtrmrk_file);
     imagealphablending($watermark, false);
@@ -90,7 +99,7 @@ $wtrmrk_h = imagesy($watermark);
 $dst_x = ($img_w / 2) - ($wtrmrk_w / 2);
 $dst_y = ($img_h / 2) - ($wtrmrk_h / 2);
 imagecopy($thumb, $watermark, $dst_x, $dst_y, 0, 0, $wtrmrk_w, $wtrmrk_h);
-imagejpeg($thumb, $newcopy, 90);
+imagejpeg($thumb, $newcopy, 100);
 imagedestroy($thumb);
 imagedestroy($watermark);
 
