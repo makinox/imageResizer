@@ -2,9 +2,12 @@
 
 header('Content-type: image/jpeg');
 
-$target = "5905.jpg";
+$target = "1000.jpg";
 $wtrmrk_file = "watermark.png";
+$little_wtrmrk_file = "little-watermark.png";
 $newcopy = "completo.jpg";
+
+$wa = 0;
 
 list($ancho, $alto) = getimagesize($target);
 
@@ -51,22 +54,31 @@ if (($ancho + $alto) > 10000) {
     $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
     $origen = imagecreatefromjpeg($target);
     imagecopyresized($thumb, $origen, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
+    $wa = 1;
 } else {
     $nuevo_ancho = $ancho;
     $nuevo_alto = $alto;
     $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
     $origen = imagecreatefromjpeg($target);
     imagecopyresized($thumb, $origen, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
+    $wa = 1;
 }
 
 imagedestroy($origen);
 
 
 // Preparando la marca de agua
-$watermark = imagecreatefrompng($wtrmrk_file);
-imagealphablending($watermark, false);
-imagesavealpha($watermark, true);
-imagefilter($watermark, IMG_FILTER_COLORIZE, 0,0,0,127* (1 - 0.3));
+if ($wa) {
+    $watermark = imagecreatefrompng($little_wtrmrk_file);
+    imagealphablending($watermark, false);
+    imagesavealpha($watermark, true);
+    imagefilter($watermark, IMG_FILTER_COLORIZE, 0,0,0,127* (1 - 0.3));
+} else {
+    $watermark = imagecreatefrompng($wtrmrk_file);
+    imagealphablending($watermark, false);
+    imagesavealpha($watermark, true);
+    imagefilter($watermark, IMG_FILTER_COLORIZE, 0,0,0,127* (1 - 0.3));
+}
 
 
 // Mete la marca de agua
